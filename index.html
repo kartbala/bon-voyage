@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bon voyage -- Karthik &amp; Ashton</title>
+<meta name="description" content="A DC send-off for Karthik and Ashton before a year in the Netherlands.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f3ead3;
+    --cream-deep: #ede2c3;
+    --paper: #fbf5e1;
+    --ink: #1a1410;
+    --ink-soft: #3d2f26;
+    --ink-dim: #6b5a4a;
+    --oranje: #e85a1c;
+    --oranje-deep: #b8420f;
+    --delft: #2f4f7a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.65;
+    font-variation-settings: "opsz" 16;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Subtle paper atmosphere */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 12% 8%,  rgba(232, 90, 28, 0.06) 0%, transparent 45%),
+      radial-gradient(ellipse at 88% 92%, rgba(47, 79, 122, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Airmail stripes: top and bottom edges */
+  .airmail-stripe {
+    position: fixed;
+    left: 0; right: 0;
+    height: 14px;
+    background: repeating-linear-gradient(
+      -58deg,
+      var(--oranje) 0 12px,
+      var(--cream) 12px 24px,
+      var(--delft) 24px 36px,
+      var(--cream) 36px 48px
+    );
+    z-index: 50;
+  }
+  .airmail-stripe.top { top: 0; }
+  .airmail-stripe.bottom { bottom: 0; }
+
+  main { position: relative; z-index: 1; }
+
+  section {
+    max-width: 76rem;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  /* ─── Hero ─────────────────────────────────────────── */
+  .hero {
+    min-height: 94vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 6rem;
+    padding-bottom: 5rem;
+    position: relative;
+  }
+
+  .flag {
+    font-size: 2.25rem;
+    margin-bottom: 2.5rem;
+    display: inline-block;
+    line-height: 1;
+  }
+
+  .display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(4.5rem, 15vw, 14rem);
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    margin-bottom: 2.5rem;
+  }
+  .display .dot {
+    color: var(--oranje);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .lede {
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    font-style: italic;
+    max-width: 44rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    font-variation-settings: "opsz" 36;
+  }
+
+  .byline {
+    margin-top: 3.5rem;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+  }
+  .byline::before {
+    content: '';
+    flex: 0 0 4rem;
+    height: 1px;
+    background: var(--ink);
+  }
+  .byline::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.4;
+  }
+
+  /* Flight arc SVG in hero corner */
+  .arc {
+    position: absolute;
+    top: 7rem;
+    right: 2.5rem;
+    width: 180px;
+    height: 80px;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  /* ─── Section rule ─────────────────────────────────── */
+  .rule {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 7rem 0 3rem;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--oranje-deep);
+  }
+  .rule::before {
+    content: '';
+    height: 2px;
+    flex: 0 0 3rem;
+    background: var(--oranje-deep);
+  }
+  .rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.25;
+  }
+
+  /* ─── The gist ─────────────────────────────────────── */
+  .gist-grid {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 4.5rem;
+    margin-bottom: 2rem;
+    align-items: start;
+  }
+  .gist p {
+    margin-bottom: 1.4rem;
+    font-size: 1.2rem;
+    line-height: 1.65;
+  }
+  .placeholder {
+    border-left: 3px solid var(--oranje);
+    padding: 0.25rem 0 0.25rem 1.75rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .placeholder .tag {
+    display: inline-block;
+    background: var(--oranje);
+    color: var(--paper);
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: normal;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.55rem;
+    margin-right: 0.5rem;
+    vertical-align: 0.18em;
+  }
+
+  .pullquote {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(1.85rem, 3.2vw, 2.75rem);
+    line-height: 1.12;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--oranje-deep);
+    font-variation-settings: "opsz" 72;
+    position: relative;
+    padding-left: 0.3em;
+  }
+  .pullquote::before {
+    content: '\201C';
+    position: absolute;
+    left: -0.4em;
+    top: -0.25em;
+    font-size: 3em;
+    opacity: 0.25;
+    font-style: normal;
+    line-height: 1;
+  }
+
+  /* ─── Postcard details ────────────────────────────── */
+  .postcard {
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    padding: 3rem 3.25rem;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 3.5rem;
+    position: relative;
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+
+  .stamp {
+    position: absolute;
+    top: -1rem;
+    right: 2.5rem;
+    width: 5.25rem;
+    height: 6.25rem;
+    border: 2px dashed var(--oranje);
+    padding: 0.4rem;
+    background: var(--paper);
+    transform: rotate(4deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .stamp-inner {
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--oranje-deep);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--oranje-deep);
+    line-height: 1.2;
+    text-align: center;
+    padding: 0.2rem;
+  }
+  .stamp-inner .big {
+    font-size: 1.3rem;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    margin: 0.1rem 0;
+  }
+
+  .field {
+    margin-bottom: 1.5rem;
+  }
+  .field:last-child { margin-bottom: 0; }
+
+  .field-label {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+  }
+  .field-value {
+    font-size: 1.35rem;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .field-value.pending {
+    color: var(--oranje-deep);
+    border-bottom: 1.5px dashed var(--oranje);
+    display: inline-block;
+    padding-bottom: 3px;
+  }
+
+  /* ─── Woonerf aside ────────────────────────────────── */
+  .woonerf {
+    max-width: 46rem;
+    margin: 7rem auto;
+    padding: 0 2.5rem 0 4.5rem;
+    font-style: italic;
+    font-size: 1.2rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    position: relative;
+  }
+  .woonerf::before {
+    content: '\00A7';
+    position: absolute;
+    left: 2.25rem;
+    top: -0.35rem;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 2.8rem;
+    color: var(--oranje);
+    line-height: 1;
+    font-style: normal;
+    font-weight: 400;
+  }
+  .woonerf b {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ─── RSVP ─────────────────────────────────────────── */
+  .rsvp {
+    text-align: center;
+    padding: 2rem 2.5rem 5rem;
+  }
+  .rsvp-rule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--oranje-deep);
+    font-weight: 600;
+    margin-bottom: 2.25rem;
+  }
+  .rsvp-rule::before,
+  .rsvp-rule::after {
+    content: '';
+    width: 3rem;
+    height: 1px;
+    background: var(--oranje-deep);
+  }
+  .rsvp-link {
+    display: inline-block;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 3px solid var(--oranje);
+    padding-bottom: 0.2rem;
+    transition: color 0.25s ease, border-color 0.25s ease;
+    font-variation-settings: "opsz" 96;
+  }
+  .rsvp-link:hover {
+    color: var(--oranje);
+  }
+  .rsvp-note {
+    margin-top: 1.75rem;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    font-style: italic;
+    max-width: 32rem;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.55;
+  }
+
+  /* ─── Footer ───────────────────────────────────────── */
+  footer {
+    text-align: center;
+    padding: 3rem 2.5rem 4.5rem;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 0.88rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    font-weight: 500;
+  }
+  footer svg {
+    display: block;
+    margin: 0 auto 1.75rem;
+  }
+
+  /* ─── Entrance animation ──────────────────────────── */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero > * {
+    opacity: 0;
+    animation: fade-up 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  .hero .flag    { animation-delay: 0.1s; }
+  .hero .display { animation-delay: 0.25s; }
+  .hero .lede    { animation-delay: 0.55s; }
+  .hero .byline  { animation-delay: 0.8s; }
+  .hero .arc     { animation-delay: 1.2s; animation-duration: 1.4s; }
+
+  /* ─── Responsive ──────────────────────────────────── */
+  @media (max-width: 900px) {
+    body { font-size: 18px; }
+    section { padding: 0 1.5rem; }
+    .hero { padding-top: 5rem; }
+    .arc { display: none; }
+    .gist-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .pullquote { padding-left: 0.8em; }
+    .postcard {
+      grid-template-columns: 1fr;
+      padding: 2.25rem 1.75rem;
+      gap: 2rem;
+    }
+    .stamp {
+      top: -0.75rem;
+      right: 1rem;
+      width: 4.25rem;
+      height: 5.25rem;
+    }
+    .woonerf {
+      padding: 0 1.5rem;
+      margin: 5rem auto;
+    }
+    .woonerf::before {
+      position: static;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .rule { margin-top: 5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero > * { animation: none; opacity: 1; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="airmail-stripe top"></div>
+<div class="airmail-stripe bottom"></div>
+
+<main>
+
+  <section class="hero">
+    <span class="flag" aria-hidden="true">&#x1F1F3;&#x1F1F1;</span>
+    <h1 class="display">Bon<br>voyage<span class="dot">.</span></h1>
+    <p class="lede">We're off to the Netherlands for a year. Come say see-you-later before the suitcases zip shut.</p>
+    <p class="byline"><span>Karthik &amp; Ashton &middot; SW DC</span></p>
+
+    <svg class="arc" viewBox="0 0 180 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M 10 65 Q 90 -10, 170 65" stroke="#1a1410" stroke-width="1.4" stroke-dasharray="3 5" fill="none"/>
+      <circle cx="10"  cy="65" r="4" fill="#e85a1c"/>
+      <circle cx="170" cy="65" r="4" fill="#2f4f7a"/>
+      <path d="M 86 17 l 10 4 -8 5 z" fill="#1a1410" transform="rotate(6 90 21)"/>
+    </svg>
+  </section>
+
+
+  <section>
+    <div class="rule"><span>The gist</span></div>
+    <div class="gist-grid">
+      <div class="gist">
+        <div class="placeholder">
+          <p><span class="tag">Host note</span>Karthik's on sabbatical and we're using the year to live somewhere walkable, with water around the corner and bike paths that actually connect. Utrecht won the coin toss.</p>
+          <p>We'll miss the people more than the city. So: come over, eat too much, meet someone you haven't met, and tell us your news before the boxes go.</p>
+          <p style="font-size: 0.95rem; color: var(--ink-dim); margin-top: 2rem;">&mdash; swap this copy for your own.</p>
+        </div>
+      </div>
+      <aside class="pullquote">A whole year of stroopwafels. A whole year missing you.</aside>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="rule"><span>The details</span></div>
+    <div class="postcard">
+      <div class="stamp" aria-hidden="true">
+        <div class="stamp-inner">
+          <span>Par&nbsp;Avion</span>
+          <span class="big">IAD &rarr; AMS</span>
+          <span>Jun &middot; 2026</span>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <div class="field-label">When</div>
+          <div class="field-value pending">[date &middot; time]</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Where</div>
+          <div class="field-value pending">[address &mdash; SW DC]</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Bring</div>
+          <div class="field-value pending">[potluck? a bottle? just yourself?]</div>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <div class="field-label">Dress</div>
+          <div class="field-value">Neighborhood casual.</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Kids</div>
+          <div class="field-value">Welcome and expected.</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Dogs</div>
+          <div class="field-value">Bring them too.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <aside class="woonerf">
+    <p>One thing we want to plant before we leave. A few years ago we wrote a <b>woonerf</b> proposal for SW DC: a Dutch-style living street where cars are guests, kids can chalk the pavement, and the block belongs to the people on it. Part of why we're going is to live on one, take notes, and bring them back. If you see a traffic engineer at the party, introduce yourself.</p>
+  </aside>
+
+
+  <section class="rsvp">
+    <div class="rsvp-rule"><span>RSVP</span></div>
+    <a class="rsvp-link" href="mailto:ashton.mcrp@gmail.com?subject=Bon%20voyage%20%E2%80%94%20count%20me%20in">Email Ashton</a>
+    <p class="rsvp-note">Tell her how many, any allergies, and whether you'll need a ride home. If you RSVP with a joke, she'll remember.</p>
+  </section>
+
+</main>
+
+<footer>
+  <svg width="140" height="44" viewBox="0 0 140 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M 8 36 Q 70 4, 132 36" stroke="#1a1410" stroke-width="1.4" stroke-dasharray="3 5" fill="none" opacity="0.55"/>
+    <circle cx="8"   cy="36" r="3.5" fill="#e85a1c"/>
+    <circle cx="132" cy="36" r="3.5" fill="#2f4f7a"/>
+  </svg>
+  Wheels up in June &middot; see you before then
+</footer>
+
+</body>
+</html>

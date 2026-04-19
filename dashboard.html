@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bon voyage &middot; Host dashboard</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&display=swap" rel="stylesheet">
+<style>
+  :root[data-theme="dark"] {
+    --bg:         #0d0c0a;
+    --panel:      #17150f;
+    --panel-2:    #1f1c15;
+    --border:     #2a241b;
+    --border-2:   #3d342a;
+    --text:       #f3ead3;
+    --text-mute:  #a89986;
+    --text-dim:   #6b5f50;
+    --accent:     #ff7a1c;
+    --accent-2:   #cc5a0f;
+    --warning:    #f5b347;
+    --danger:     #f87171;
+    --map-filter: invert(0.94) hue-rotate(180deg) saturate(0.55) brightness(0.92);
+  }
+  :root[data-theme="light"] {
+    --bg:         #f3ead3;
+    --panel:      #fbf5e1;
+    --panel-2:    #fff8e4;
+    --border:     #dcd0b4;
+    --border-2:   #b8ac90;
+    --text:       #1a1410;
+    --text-mute:  #5a4a3a;
+    --text-dim:   #8a7a68;
+    --accent:     #cc5a0f;
+    --accent-2:   #8f3f0b;
+    --warning:    #a16207;
+    --danger:     #b91c1c;
+    --map-filter: none;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* ─── Header ──────────────────────────────────────── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+    position: sticky;
+    top: 0;
+    z-index: 500;
+    backdrop-filter: blur(8px);
+  }
+  .logo {
+    font-family: 'Newsreader', Georgia, serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-variation-settings: "opsz" 32;
+  }
+  .logo em {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 500;
+  }
+  .logo .sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--text-mute);
+    font-weight: 400;
+    padding-left: 0.9rem;
+    border-left: 1px solid var(--border-2);
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+  }
+
+  .btn {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.5rem 0.85rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ─── Stats strip ─────────────────────────────────── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    background: var(--border);
+    gap: 1px;
+    border-bottom: 1px solid var(--border);
+  }
+  .stat {
+    background: var(--panel);
+    padding: 1.5rem 1.75rem;
+  }
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    margin-bottom: 0.6rem;
+  }
+  .stat-value {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 2.75rem;
+    font-weight: 400;
+    line-height: 1;
+    font-variation-settings: "opsz" 48;
+    letter-spacing: -0.01em;
+  }
+  .stat-value .slash {
+    color: var(--text-dim);
+    margin: 0 0.15em;
+    font-style: italic;
+    font-weight: 300;
+  }
+  .stat-value .small {
+    font-size: 1.4rem;
+    color: var(--text-mute);
+  }
+  .stat-sub {
+    margin-top: 0.4rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+  }
+  .stat.accent .stat-value { color: var(--accent); }
+
+  /* ─── Filter bar ──────────────────────────────────── */
+  .filters {
+    padding: 1.1rem 2rem;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .filter-head {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    margin-right: 0.75rem;
+  }
+  .filter-head .bullet { color: var(--accent); margin-right: 0.3rem; }
+
+  .pill {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    transition: border-color 0.15s, background 0.15s, opacity 0.15s;
+    font-family: inherit;
+  }
+  .pill .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .pill .count {
+    color: var(--text-mute);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+  .pill:hover { border-color: var(--border-2); }
+  .pill[aria-pressed="false"] {
+    opacity: 0.35;
+    background: transparent;
+  }
+
+  .bulk-btn {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-mute);
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .bulk-btn:hover { color: var(--text); border-color: var(--border-2); }
+
+  /* ─── Main grid ───────────────────────────────────── */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    min-height: calc(100vh - 250px);
+  }
+
+  .cards-col {
+    padding: 2rem;
+    overflow-y: auto;
+  }
+
+  .map-col {
+    border-left: 1px solid var(--border);
+    background: var(--panel);
+    position: sticky;
+    top: 73px;
+    height: calc(100vh - 73px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  #map {
+    flex: 1;
+    min-height: 300px;
+    background: var(--bg);
+  }
+  #map.themed .leaflet-tile-container { filter: var(--map-filter); }
+
+  .leaflet-control-attribution {
+    background: rgba(20, 17, 12, 0.8) !important;
+    color: var(--text-mute) !important;
+    font-size: 10px !important;
+    border-radius: 4px 0 0 0;
+  }
+  .leaflet-control-attribution a { color: var(--text) !important; }
+  :root[data-theme="light"] .leaflet-control-attribution {
+    background: rgba(251, 245, 225, 0.88) !important;
+  }
+
+  .leaflet-popup-content-wrapper {
+    background: var(--panel-2) !important;
+    color: var(--text) !important;
+    border-radius: 4px !important;
+    border: 1px solid var(--border-2) !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35) !important;
+  }
+  .leaflet-popup-tip {
+    background: var(--panel-2) !important;
+    border: 1px solid var(--border-2) !important;
+  }
+  .leaflet-popup-content {
+    margin: 0.75rem 1rem !important;
+    font-family: 'IBM Plex Sans', sans-serif !important;
+    font-size: 0.85rem !important;
+    line-height: 1.4 !important;
+  }
+  .popup-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+    color: var(--text);
+  }
+  .popup-meta {
+    font-size: 0.75rem;
+    color: var(--text-mute);
+  }
+  .popup-swatch {
+    display: inline-block;
+    width: 8px; height: 8px; border-radius: 50%;
+    margin-right: 0.4rem;
+    vertical-align: 1px;
+  }
+
+  .map-legend {
+    padding: 0.9rem 1.25rem;
+    border-top: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-mute);
+    letter-spacing: 0.02em;
+  }
+  .map-legend .highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text);
+  }
+  .map-legend .ring {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: transparent;
+    box-shadow: 0 0 0 2px rgba(255, 122, 28, 0.25);
+  }
+
+  /* ─── Still missing panel ─────────────────────────── */
+  .still-missing {
+    border-top: 1px solid var(--border);
+    max-height: 38%;
+    overflow-y: auto;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+  .still-missing h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--warning);
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .still-missing h3 .count {
+    background: var(--warning);
+    color: var(--bg);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.05rem 0.45rem;
+    border-radius: 3px;
+    letter-spacing: 0;
+  }
+  .missing-row {
+    padding: 0.55rem 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 0.88rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+  .missing-row:last-child { border-bottom: none; }
+  .missing-row .name { color: var(--text); }
+  .missing-row .why {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--warning);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ─── Cluster cards ───────────────────────────────── */
+  .cluster-group { margin-bottom: 3rem; }
+  .cluster-group:last-child { margin-bottom: 0; }
+
+  .cluster-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .cluster-header h2 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-weight: 400;
+    font-size: 1.85rem;
+    line-height: 1;
+    font-variation-settings: "opsz" 32;
+    letter-spacing: -0.01em;
+  }
+  .cluster-header .swatch {
+    width: 11px; height: 11px; border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .cluster-header .meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    margin-left: auto;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--cluster-color, var(--accent));
+    padding: 0.95rem 1.15rem 1rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    position: relative;
+  }
+  .card:hover {
+    border-color: var(--border-2);
+    background: var(--panel-2);
+  }
+  .card.expanded {
+    background: var(--panel-2);
+    border-color: var(--border-2);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.2rem;
+  }
+  .card-name {
+    font-weight: 600;
+    font-size: 1.02rem;
+    line-height: 1.3;
+  }
+  .heads-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-mute);
+    border: 1px solid var(--border-2);
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+    letter-spacing: 0.04em;
+  }
+
+  .card-note {
+    font-size: 0.85rem;
+    color: var(--text-mute);
+    line-height: 1.45;
+    margin-bottom: 0.45rem;
+  }
+  .card-note:empty { display: none; }
+
+  .card-neighborhood {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .card-neighborhood.sw-mark {
+    color: var(--accent);
+  }
+  .card-neighborhood.sw-mark::before {
+    content: '\25C9';
+    margin-right: 0.3rem;
+    font-size: 0.9rem;
+    vertical-align: -0.05em;
+  }
+
+  .card-detail {
+    display: none;
+    margin-top: 0.75rem;
+    padding-top: 0.7rem;
+    border-top: 1px dashed var(--border-2);
+  }
+  .card.expanded .card-detail { display: block; }
+
+  .email-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    padding: 0.15rem 0;
+    word-break: break-all;
+  }
+  .email-row a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .email-row a:hover { text-decoration: underline; }
+  .email-row .label {
+    color: var(--text-dim);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    min-width: 2.2rem;
+  }
+  .card-detail .no-email {
+    color: var(--warning);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .empty-state {
+    padding: 4rem 2rem;
+    text-align: center;
+    color: var(--text-mute);
+    font-style: italic;
+    font-size: 1.1rem;
+    font-family: 'Newsreader', Georgia, serif;
+  }
+
+  /* ─── Gate (password) ─────────────────────────────── */
+  .gate {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .gate.hidden { display: none; }
+  .gate-card {
+    width: min(26rem, 100%);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 2.25rem 2rem;
+  }
+  .gate-title {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 0.35rem;
+    font-variation-settings: "opsz" 32;
+  }
+  .gate-title em { color: var(--accent); font-style: italic; }
+  .gate-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    margin-bottom: 1.5rem;
+  }
+  .gate-form { display: flex; flex-direction: column; gap: 0.75rem; }
+  .gate-input {
+    background: var(--bg);
+    border: 1px solid var(--border-2);
+    color: var(--text);
+    padding: 0.75rem 0.9rem;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.05rem;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .gate-input:focus { border-color: var(--accent); }
+  .gate-submit {
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    color: #fff;
+    padding: 0.75rem 0.9rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .gate-submit:hover { background: var(--accent-2); border-color: var(--accent-2); }
+  .gate-error {
+    color: var(--danger);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    min-height: 1rem;
+    margin-top: 0.25rem;
+  }
+
+  /* ─── Responsive ──────────────────────────────────── */
+  @media (max-width: 1100px) {
+    .main { grid-template-columns: 1fr; }
+    .map-col {
+      position: static;
+      height: 480px;
+      border-left: none;
+      border-top: 1px solid var(--border);
+    }
+    .still-missing { max-height: 260px; }
+  }
+  @media (max-width: 820px) {
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .stat:nth-child(4), .stat:nth-child(5) {
+      border-top: 1px solid var(--border);
+    }
+    .stat-value { font-size: 2.1rem; }
+  }
+  @media (max-width: 560px) {
+    header { padding: 0.9rem 1.25rem; flex-wrap: wrap; gap: 0.5rem; }
+    .logo { font-size: 1.35rem; }
+    .logo .sub { display: none; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .filters { padding: 0.9rem 1.25rem; }
+    .cards-col { padding: 1.25rem; }
+    .card-grid { grid-template-columns: 1fr; }
+    .bulk-btn { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="gate-title">Bon <em>voyage</em></div>
+    <div class="gate-sub">Host dashboard &middot; private</div>
+    <form class="gate-form" id="gateForm" autocomplete="off">
+      <input class="gate-input" id="gateInput" type="password" placeholder="Passphrase" autofocus>
+      <button class="gate-submit" type="submit">Unlock</button>
+      <div class="gate-error" id="gateError">&nbsp;</div>
+    </form>
+  </div>
+</div>
+
+<header>
+  <div class="logo">
+    Bon&nbsp;<em>voyage</em>
+    <span class="sub">Host dashboard &middot; private</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn" id="themeToggle" type="button">Light mode</button>
+  </div>
+</header>
+
+<div class="stats" id="stats"></div>
+
+<div class="filters" id="filters">
+  <span class="filter-head"><span class="bullet">&#x2981;</span>Clusters</span>
+</div>
+
+<div class="main">
+  <div class="cards-col" id="cardsCol"></div>
+  <div class="map-col">
+    <div id="map" class="themed"></div>
+    <div class="map-legend">
+      <span class="highlight"><span class="ring"></span> SW neighbors &mdash; closest circle</span>
+    </div>
+    <div class="still-missing">
+      <h3>Still missing <span class="count" id="missingCount">0</span></h3>
+      <div id="missingList"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+'use strict';
+
+// ─── Gate: client-side SHA-256 passphrase check ──────
+// Not a security boundary (source is visible); just a
+// polite "don't look" for a list of personal emails.
+const GATE_HASH = '50a443cdbf4fdbba0c0e07ce208c7e7bc558ec53655276d4a838839f610cc3ae';
+const GATE_KEY = 'bon-voyage-host-unlocked';
+
+async function sha256Hex(s) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function unlock() {
+  document.getElementById('gate').classList.add('hidden');
+  try { sessionStorage.setItem(GATE_KEY, '1'); } catch (e) {}
+  if (map) setTimeout(() => map.invalidateSize(), 50);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const gate = document.getElementById('gate');
+  const form = document.getElementById('gateForm');
+  const input = document.getElementById('gateInput');
+  const err = document.getElementById('gateError');
+
+  if (sessionStorage.getItem(GATE_KEY) === '1') {
+    gate.classList.add('hidden');
+  } else {
+    input.focus();
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    err.textContent = '\u00A0';
+    const h = await sha256Hex(input.value.trim().toLowerCase());
+    if (h === GATE_HASH) {
+      unlock();
+    } else {
+      err.textContent = 'Nope. Try again.';
+      input.value = '';
+      input.focus();
+    }
+  });
+});
+
+const CLUSTERS = {
+  family:          { label: 'Family',          color: '#ec5a8e' },
+  hbs_dc:          { label: 'HBS &middot; DC', color: '#991b1b' },
+  howard:          { label: 'Howard',          color: '#c4122e' },
+  gmu:             { label: 'GMU',             color: '#156f3b' },
+  sw_dc:           { label: 'SW DC neighbors', color: '#ff7a1c' },
+  sw_bid:          { label: 'SW BID',          color: '#14b8a6' },
+  dc_safe_streets: { label: 'Safe streets',    color: '#3b82f6' },
+  civic:           { label: 'Civic',           color: '#a855f7' },
+  friends_dc:      { label: 'Friends &middot; DC', color: '#eab308' },
+  duke:            { label: 'Duke',            color: '#012169' }
+};
+
+const COORDS = {
+  '607 4th St SW':   [38.88063, -77.01634],
+  'Half St SW':      [38.87610, -77.00760],
+  '700 7th St SW':   [38.88000, -77.02140],
+  'Chapin St NW':    [38.92700, -77.03700],
+  'SE DC':           [38.8700,  -76.9900],
+  'NW DC':           [38.9200,  -77.0400],
+  'Brookland NE':    [38.9330,  -76.9950],
+  'Herndon VA':      [38.9700,  -77.3900],
+  'Arlington VA':    [38.8800,  -77.0900]
+};
+
+const GUESTS = [
+  { name: "Mom",                      email: "nhpd153@gmail.com",                                                 heads: 1, cluster: "family",          note: "Karthik's mom" },
+  { name: "Su and Adam",              email: "sumathib@gmail.com",    email2: "adambatty@gmail.com",             heads: 2, cluster: "family",          neighborhood: "SE DC",       note: "Karthik's sister + brother-in-law" },
+  { name: "Venkatesans",              email: "kani.patlur@gmail.com", email2: "vgounder@gmail.com",              heads: 4, cluster: "family",          neighborhood: "Herndon VA",  note: "Kani Akka + Venkat Anna + kids" },
+  { name: "Karthik K",                email: "kkanakarajan@gmail.com",                                           heads: 1, cluster: "family",          note: "Cousin, Dublin OH" },
+  { name: "Parthi Anna",              email: "parthit@yahoo.com",                                                heads: 2, cluster: "family" },
+  { name: "Nitin + Laura",            email: "nitin.sekar@gmail.com", email2: "lauraboffa@gmail.com",            heads: 2, cluster: "family",          note: "Nitin = HBS classmate, now in India; possibly visiting" },
+  { name: "Sam + Samy",               email: "samysekar08@gmail.com", email2: "roth.sam11@gmail.com",            heads: 2, cluster: "family",          note: "Nitin's sister + partner; Roth-Sekar wedding" },
+  { name: "Siegel fam",               email: "amsiegs@gmail.com",     email2: "madihak22@gmail.com",             heads: 4, cluster: "hbs_dc",          neighborhood: "SE DC",       note: "Adam + Madiha + kids, HBS" },
+  { name: "Chris and Christy",        email: "christopher.d.parker@gmail.com", email2: "christy.milliken@gmail.com", heads: 4, cluster: "hbs_dc",      neighborhood: "NW DC",       note: "Chris Parker (Darden prof) + Christy Milliken" },
+  { name: "Chris and Laura",          email: "christopherdc@gmail.com", email2: "lauraecummings@gmail.com",      heads: 4, cluster: "hbs_dc",          neighborhood: "Arlington VA", note: "Chris Cummings + Laura" },
+  { name: "David + Melissa Adelman",  email: "david.adelman@gmail.com", email2: "mecclest@gmail.com",            heads: 4, cluster: "hbs_dc",          note: "HBS boys group; Melissa just added" },
+  { name: "Eric + Liz",               email: "ericbpowers@gmail.com",                                            heads: 4, cluster: "hbs_dc",          note: "HBS boys group" },
+  { name: "Guru Raj + Sophia",        email: "guru.b.raj@gmail.com",                                             heads: 4, cluster: "hbs_dc",          note: "HBS boys group" },
+  { name: "Ted + Miriam Nessly",      email: "ted.nissly@gmail.com",                                             heads: 4, cluster: "hbs_dc",          note: "HBS boys group" },
+  { name: "Sam and Saurav",           email: "samuel.s.paschall@gmail.com", email2: "saurav.j.thapa@gmail.com",  heads: 2, cluster: "hbs_dc" },
+  { name: "Anupam and Natasha",       email: "anupamva.us@gmail.com",                                            heads: 2, cluster: "hbs_dc",          neighborhood: "Herndon VA",  note: "Howard colleague + HBS overlap" },
+  { name: "Rajni",                    email: "rgoel@howard.edu",                                                 heads: 2, cluster: "howard",          note: "Howard colleague" },
+  { name: "Iman",                     email: "iman.ghalehkhondabi@howard.edu",                                   heads: 2, cluster: "howard" },
+  { name: "Angela",                   email: "angela.jones1@howard.edu",                                         heads: 1, cluster: "howard" },
+  { name: "Darian + Jill",            email: "dwunger@Howard.edu",    email2: "jillpclark@yahoo.com",            heads: 2, cluster: "howard" },
+  { name: "Yuriko",                   email: "ynoda@gmu.edu",                                                    heads: 1, cluster: "gmu" },
+  { name: "Tehama + Ximena",          email: "tlopezbu@gmu.edu",                                                 heads: 2, cluster: "gmu" },
+  { name: "Arthur",                   email: "aromano7@gmu.edu",                                                 heads: 3, cluster: "gmu" },
+  { name: "Susan",                    email: "sallen29@gmu.edu",                                                 heads: 2, cluster: "gmu" },
+  { name: "Sharifah",                 email: "sholder525600@gmail.com",                                          heads: 1, cluster: "friends_dc" },
+  { name: "Harlan + fam",             email: "harlanisabelsimpson@gmail.com",                                    heads: 4, cluster: "friends_dc" },
+  { name: "Zoe + Phil",               email: "zoe.k.philip@gmail.com",                                           heads: 2, cluster: "friends_dc" },
+  { name: "Neo",                      email: "nhmorake@gmail.com",                                               heads: 1, cluster: "sw_dc",           neighborhood: "607 4th St SW", note: "SW neighbor, MAAC member" },
+  { name: "Lexie + Dom",              email: "lexiealbe@gmail.com",   email2: "dbonaduce1@gmail.com",            heads: 2, cluster: "sw_dc",           neighborhood: "Half St SW" },
+  { name: "Jen (PPT)",                email: "jwalker20910@gmail.com",                                           heads: 1, cluster: "friends_dc" },
+  { name: "Michael (PPT)",                                                                                       heads: 1, cluster: "friends_dc",      note: "email missing" },
+  { name: "Ms. Julia",                email: "jultaylor@earthlink.net",                                          heads: 1, cluster: "sw_dc",           neighborhood: "700 7th St SW", note: "SW neighbor" },
+  { name: "Zack",                     email: "zbaldwin@swbid.org",                                               heads: 4, cluster: "sw_bid" },
+  { name: "Sooin",                    email: "schoi@swbid.org",                                                  heads: 2, cluster: "sw_bid" },
+  { name: "Pam",                      email: "Pwolf@swbid.org",                                                  heads: 2, cluster: "sw_bid" },
+  { name: "Jessie",                   email: "jhimmelrich@swbid.org",                                            heads: 4, cluster: "sw_bid" },
+  { name: "Chelsea",                  email: "chelsea@chalkriot.com",                                            heads: 2, cluster: "dc_safe_streets", note: "Chalk Riot, street art + safety" },
+  { name: "Christy",                  email: "christykwan@gmail.com",                                            heads: 1, cluster: "dc_safe_streets" },
+  { name: "Faith + fam",              email: "faithcole@gmail.com",                                              heads: 4, cluster: "friends_dc" },
+  { name: "Jessica + Bryan",          email: "jessicariester@gmail.com", email2: "bryan.s.hart@gmail.com",       heads: 3, cluster: "dc_safe_streets", note: "Jessica Riester Hart, DC advocate" },
+  { name: "Rishab",                   email: "rishab.jagetia@alumni.duke.edu",                                   heads: 1, cluster: "duke" },
+  { name: "Ava + fam",                email: "avamillstone@gmail.com",                                           heads: 4, cluster: "friends_dc" },
+  { name: "Vic + Rachel",             email: "vicrumpuri@yahoo.com",                                             heads: 4, cluster: "friends_dc",      note: "Vic Rumpuri" },
+  { name: "Abby",                     email: "abby.ludwig@gmail.com",                                            heads: 1, cluster: "friends_dc",      note: "Abby Ludwig, Hub3 colleague" },
+  { name: "Bushira",                  email: "hellobushiram@gmail.com",                                          heads: 1, cluster: "sw_dc",           neighborhood: "Chapin St NW", note: "Bushira Musa, close circle" },
+  { name: "Kalli",                    email: "kalli.krumpos@waba.org",                                           heads: 2, cluster: "dc_safe_streets", note: "WABA" },
+  { name: "Dustin Robertson",         email: "drobertson@smartgrowthamerica.org",                                heads: 3, cluster: "dc_safe_streets", note: "Smart Growth America" },
+  { name: "John and Jen",             email: "coasterider@gmail.com",                                            heads: 2, cluster: "dc_safe_streets" },
+  { name: "Kelly Mack",               email: "kellyrmack@gmail.com",                                             heads: 2, cluster: "civic",           note: "MAAC DC co-organizer" },
+  { name: "Stacy and Scott Kane",     email: "stacy.kane@gmail.com",                                             heads: 2, cluster: "friends_dc",      neighborhood: "Brookland NE", note: "wedding-era friends" },
+  { name: "Safak Y\u00FCcel",         email: "safak.yucel@georgetown.edu",                                       heads: 2, cluster: "friends_dc",      note: "Georgetown McDonough, POMS" },
+  { name: "Tristan Wilkerson",        email: "tristan@wilkerson.family",                                         heads: 2, cluster: "friends_dc",      note: "High Street Equity Partners, DC VC" },
+  { name: "Bob Heath",                email: "rfheath1@gmail.com",                                               heads: 2, cluster: "civic",           note: "Block Power board / D&O" },
+  { name: "Rick Birt",                email: "rick.birt@dc.gov",                                                 heads: 2, cluster: "dc_safe_streets", note: "DC Highway Safety Office (EOM)" },
+  { name: "Peter Stephan",            email: "peterlstephan@gmail.com",                                          heads: 2, cluster: "dc_safe_streets", note: "MAAC DC, DC govt" },
+  { name: "Conor Shaw",               email: "cshaw@dccouncil.gov",                                              heads: 2, cluster: "dc_safe_streets", note: "DC Council staff" },
+  { name: "Rachel Clark",             email: "rachelclark@email.gwu.edu",                                        heads: 2, cluster: "dc_safe_streets", note: "GWU researcher, SW road safety collaborator" },
+  { name: "Tim Hampton",              email: "grendel4@gmail.com",                                               heads: 2, cluster: "dc_safe_streets", note: "DC transportation advocate" },
+  { name: "J. Swiderski",             email: "erskiji@gmail.com",                                                heads: 2, cluster: "dc_safe_streets", note: "MAAC DC, daylighting" },
+  { name: "Brian Goggin",             email: "brgoggs@gmail.com",                                                heads: 2, cluster: "sw_dc",           note: "SW DC 4th St bike lanes advocate" }
+];
+
+// ─── State ────────────────────────────────────────────
+const state = {
+  active: new Set(Object.keys(CLUSTERS)),
+  expanded: new Set()
+};
+
+// ─── Helpers ──────────────────────────────────────────
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+
+function isCouplePartyMissingEmail(g) {
+  if (g.heads < 2) return false;
+  if (g.email2) return false;
+  if (/\bfam\b/i.test(g.name)) return false;
+  return /\s(\+|and)\s/i.test(g.name);
+}
+
+function isMissingAnyEmail(g) {
+  return !g.email;
+}
+
+function isDcMetro(g) {
+  return !!(g.neighborhood);
+}
+
+function guestCoord(g) {
+  if (!g.neighborhood) return null;
+  return COORDS[g.neighborhood] || null;
+}
+
+// stable jitter so pins don't hop between renders
+function jitterFor(g) {
+  let h = 0;
+  const s = (g.name || '') + (g.email || '');
+  for (let i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) | 0; }
+  const dx = ((h & 0xff) / 255 - 0.5) * 0.008;
+  const dy = (((h >> 8) & 0xff) / 255 - 0.5) * 0.008;
+  return [dy, dx];
+}
+
+// ─── Render: stats ────────────────────────────────────
+function renderStats() {
+  const active = GUESTS.filter(g => state.active.has(g.cluster));
+  const parties = active.length;
+  const heads = active.reduce((a, g) => a + g.heads, 0);
+  const clusterCount = new Set(active.map(g => g.cluster)).size;
+  const swNeighbors = active.filter(g => g.cluster === 'sw_dc').length;
+  const missingCount = GUESTS.filter(g => isCouplePartyMissingEmail(g) || isMissingAnyEmail(g)).length;
+
+  const totalParties = GUESTS.length;
+  const totalHeads = GUESTS.reduce((a, g) => a + g.heads, 0);
+
+  $('#stats').innerHTML = `
+    <div class="stat">
+      <div class="stat-label">Parties</div>
+      <div class="stat-value">${parties}<span class="slash">/</span><span class="small">${totalParties}</span></div>
+      <div class="stat-sub">${parties === totalParties ? 'all clusters' : 'filtered'}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Heads</div>
+      <div class="stat-value">${heads}<span class="slash">/</span><span class="small">${totalHeads}</span></div>
+      <div class="stat-sub">including kids + partners</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Clusters</div>
+      <div class="stat-value">${clusterCount}<span class="slash">/</span><span class="small">${Object.keys(CLUSTERS).length}</span></div>
+      <div class="stat-sub">affinity groups</div>
+    </div>
+    <div class="stat accent">
+      <div class="stat-label">SW circle</div>
+      <div class="stat-value">${swNeighbors}</div>
+      <div class="stat-sub">closest neighbors</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Still missing</div>
+      <div class="stat-value" style="color: var(--warning)">${missingCount}</div>
+      <div class="stat-sub">partner emails + gaps</div>
+    </div>
+  `;
+}
+
+// ─── Render: filter pills ─────────────────────────────
+function renderFilters() {
+  const head = '<span class="filter-head"><span class="bullet">&#x2981;</span>Clusters</span>';
+  const pills = Object.entries(CLUSTERS).map(([key, c]) => {
+    const count = GUESTS.filter(g => g.cluster === key).length;
+    const on = state.active.has(key);
+    return `<button class="pill" type="button" data-cluster="${key}" aria-pressed="${on}">
+      <span class="dot" style="background:${c.color}"></span>
+      <span>${c.label}</span>
+      <span class="count">${count}</span>
+    </button>`;
+  }).join('');
+  const bulk = `<button class="bulk-btn" type="button" id="bulkToggle">${
+    state.active.size === Object.keys(CLUSTERS).length ? 'Show SW only' : 'Show all'
+  }</button>`;
+
+  $('#filters').innerHTML = head + pills + bulk;
+
+  $$('#filters .pill').forEach(el => {
+    el.addEventListener('click', () => {
+      const k = el.dataset.cluster;
+      if (state.active.has(k)) state.active.delete(k);
+      else state.active.add(k);
+      if (state.active.size === 0) state.active.add(k); // never empty
+      render();
+    });
+  });
+  $('#bulkToggle').addEventListener('click', () => {
+    if (state.active.size === Object.keys(CLUSTERS).length) {
+      state.active = new Set(['sw_dc']);
+    } else {
+      state.active = new Set(Object.keys(CLUSTERS));
+    }
+    render();
+  });
+}
+
+// ─── Render: cluster cards ────────────────────────────
+function renderCards() {
+  const col = $('#cardsCol');
+  col.innerHTML = '';
+
+  const order = Object.keys(CLUSTERS);
+  const activeKeys = order.filter(k => state.active.has(k));
+
+  if (activeKeys.length === 0) {
+    col.innerHTML = '<div class="empty-state">No clusters selected.</div>';
+    return;
+  }
+
+  activeKeys.forEach(key => {
+    const guests = GUESTS.filter(g => g.cluster === key);
+    if (!guests.length) return;
+    const c = CLUSTERS[key];
+    const heads = guests.reduce((a, g) => a + g.heads, 0);
+
+    const group = document.createElement('section');
+    group.className = 'cluster-group';
+    group.innerHTML = `
+      <div class="cluster-header">
+        <span class="swatch" style="background:${c.color}"></span>
+        <h2>${c.label}</h2>
+        <span class="meta">${guests.length} parties &middot; ${heads} heads</span>
+      </div>
+      <div class="card-grid">
+        ${guests.map(g => renderCard(g, c.color)).join('')}
+      </div>
+    `;
+    col.appendChild(group);
+  });
+
+  $$('.card').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = el.dataset.id;
+      if (state.expanded.has(id)) state.expanded.delete(id);
+      else state.expanded.add(id);
+      el.classList.toggle('expanded');
+    });
+  });
+}
+
+function renderCard(g, color) {
+  const id = (g.name + '|' + (g.email || '')).toLowerCase();
+  const expanded = state.expanded.has(id) ? 'expanded' : '';
+  const swMark = g.cluster === 'sw_dc' ? 'sw-mark' : '';
+  const hood = g.neighborhood
+    ? `<div class="card-neighborhood ${swMark}">${escapeHtml(g.neighborhood)}</div>`
+    : '';
+  const emails = [];
+  if (g.email) emails.push(`<div class="email-row"><span class="label">@1</span><a href="mailto:${escapeHtml(g.email)}">${escapeHtml(g.email)}</a></div>`);
+  if (g.email2) emails.push(`<div class="email-row"><span class="label">@2</span><a href="mailto:${escapeHtml(g.email2)}">${escapeHtml(g.email2)}</a></div>`);
+  if (!g.email && !g.email2) emails.push(`<div class="no-email">No email on file</div>`);
+
+  return `
+    <article class="card ${expanded}" data-id="${escapeHtml(id)}" style="--cluster-color:${color}">
+      <div class="card-top">
+        <div class="card-name">${escapeHtml(g.name)}</div>
+        <span class="heads-badge">${g.heads}&times;</span>
+      </div>
+      ${g.note ? `<div class="card-note">${escapeHtml(g.note)}</div>` : ''}
+      ${hood}
+      <div class="card-detail">
+        ${emails.join('')}
+      </div>
+    </article>
+  `;
+}
+
+// ─── Render: still missing ────────────────────────────
+function renderMissing() {
+  const list = GUESTS.filter(g => isCouplePartyMissingEmail(g) || isMissingAnyEmail(g));
+  $('#missingCount').textContent = list.length;
+
+  $('#missingList').innerHTML = list.map(g => {
+    let why = 'partner email';
+    if (!g.email) why = 'no email at all';
+    return `
+      <div class="missing-row">
+        <span class="name">${escapeHtml(g.name)}</span>
+        <span class="why">${why}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+// ─── Render: map ──────────────────────────────────────
+let map, markerLayer;
+function initMap() {
+  map = L.map('map', {
+    zoomControl: true,
+    attributionControl: true,
+    scrollWheelZoom: true
+  }).setView([38.905, -77.04], 11);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap',
+    maxZoom: 18
+  }).addTo(map);
+
+  markerLayer = L.layerGroup().addTo(map);
+}
+
+function renderMap() {
+  if (!map) return;
+  markerLayer.clearLayers();
+
+  const pinned = GUESTS
+    .filter(g => state.active.has(g.cluster))
+    .map(g => ({ g, base: guestCoord(g) }))
+    .filter(x => x.base);
+
+  pinned.forEach(({ g, base }) => {
+    const [jy, jx] = jitterFor(g);
+    const lat = base[0] + jy;
+    const lng = base[1] + jx;
+    const color = CLUSTERS[g.cluster].color;
+    const sw = g.cluster === 'sw_dc';
+    const size = sw ? 22 : 16;
+    const ringStyle = sw ? `box-shadow: 0 0 0 3px rgba(255,122,28,0.35), 0 2px 8px rgba(0,0,0,0.5);` : `box-shadow: 0 2px 8px rgba(0,0,0,0.5);`;
+    const html = `<div style="
+      width:${size}px;height:${size}px;border-radius:50%;
+      background:${color};
+      border:${sw ? 3 : 2}px solid #fff;
+      ${ringStyle}
+    "></div>`;
+    const icon = L.divIcon({
+      className: 'custom-pin-wrap',
+      html,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2]
+    });
+    const marker = L.marker([lat, lng], { icon })
+      .bindPopup(`
+        <div class="popup-name">${escapeHtml(g.name)}</div>
+        <div class="popup-meta">
+          <span class="popup-swatch" style="background:${color}"></span>
+          ${CLUSTERS[g.cluster].label.replace('&middot;', '·')} &middot; ${g.heads}&times;
+        </div>
+        <div class="popup-meta" style="margin-top:0.25rem">${escapeHtml(g.neighborhood || '')}</div>
+      `);
+    markerLayer.addLayer(marker);
+  });
+}
+
+// ─── Theme ────────────────────────────────────────────
+function setupTheme() {
+  const btn = $('#themeToggle');
+  btn.addEventListener('click', () => {
+    const curr = document.documentElement.getAttribute('data-theme');
+    const next = curr === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    btn.textContent = next === 'dark' ? 'Light mode' : 'Dark mode';
+  });
+}
+
+// ─── Orchestrate ──────────────────────────────────────
+function render() {
+  renderStats();
+  renderFilters();
+  renderCards();
+  renderMissing();
+  renderMap();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupTheme();
+  initMap();
+  render();
+});
+</script>
+
+</body>
+</html>
