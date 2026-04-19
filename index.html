@@ -1,569 +1,842 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bon voyage -- Karthik &amp; Ashton</title>
-<meta name="description" content="A DC send-off for Karthik and Ashton before a year in the Netherlands.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..600&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bon Voyage Picnic · Ashton & Karthik</title>
+<meta name="description" content="A bon voyage picnic for Ashton & Karthik before we head to the Netherlands. Friday, May 15." />
+
+<!-- Open Graph / Social preview -->
+<meta property="og:title" content="Bon Voyage Picnic · Ashton & Karthik" />
+<meta property="og:description" content="Friday, May 15 · SW Waterfront · Come send us off to the Netherlands with snacks, fizzy water, and a dish to share." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
 <style>
   :root {
-    --cream: #f3ead3;
-    --cream-deep: #ede2c3;
-    --paper: #fbf5e1;
-    --ink: #1a1410;
-    --ink-soft: #3d2f26;
-    --ink-dim: #6b5a4a;
-    --oranje: #e85a1c;
-    --oranje-deep: #b8420f;
-    --delft: #2f4f7a;
+    --cream: #faf5eb;
+    --cream-deep: #f0e8d6;
+    --ink: #2a2320;
+    --ink-soft: #5a4f47;
+    --orange: #e07856;
+    --orange-deep: #c85a38;
+    --blue: #2b4a6f;
+    --sage: #8a9b7a;
+    --shadow: rgba(42, 35, 32, 0.08);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+
   html { scroll-behavior: smooth; }
 
   body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--cream);
     color: var(--ink);
-    font-family: 'Source Serif 4', Georgia, serif;
-    font-size: 19px;
-    line-height: 1.65;
-    font-variation-settings: "opsz" 16;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-    position: relative;
   }
 
-  /* Subtle paper atmosphere */
+  /* Decorative background pattern */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background:
-      radial-gradient(ellipse at 12% 8%,  rgba(232, 90, 28, 0.06) 0%, transparent 45%),
-      radial-gradient(ellipse at 88% 92%, rgba(47, 79, 122, 0.05) 0%, transparent 50%);
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(224, 120, 86, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(43, 74, 111, 0.04) 0%, transparent 40%);
     pointer-events: none;
-    z-index: 0;
+    z-index: -1;
   }
 
-  /* Airmail stripes: top and bottom edges */
-  .airmail-stripe {
-    position: fixed;
-    left: 0; right: 0;
-    height: 14px;
-    background: repeating-linear-gradient(
-      -58deg,
-      var(--oranje) 0 12px,
-      var(--cream) 12px 24px,
-      var(--delft) 24px 36px,
-      var(--cream) 36px 48px
-    );
-    z-index: 50;
-  }
-  .airmail-stripe.top { top: 0; }
-  .airmail-stripe.bottom { bottom: 0; }
-
-  main { position: relative; z-index: 1; }
-
-  section {
-    max-width: 76rem;
+  .container {
+    max-width: 720px;
     margin: 0 auto;
-    padding: 0 2.5rem;
+    padding: 0 24px;
   }
 
-  /* ─── Hero ─────────────────────────────────────────── */
+  /* Hero */
   .hero {
-    min-height: 94vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-top: 6rem;
-    padding-bottom: 5rem;
-    position: relative;
-  }
-
-  .flag {
-    font-size: 2.25rem;
-    margin-bottom: 2.5rem;
-    display: inline-block;
-    line-height: 1;
-  }
-
-  .display {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 500;
-    font-size: clamp(4.5rem, 15vw, 14rem);
-    line-height: 0.88;
-    letter-spacing: -0.045em;
-    font-variation-settings: "opsz" 144, "SOFT" 30;
-    margin-bottom: 2.5rem;
-  }
-  .display .dot {
-    color: var(--oranje);
-    font-style: italic;
-    font-weight: 400;
-  }
-
-  .lede {
-    font-size: clamp(1.3rem, 2vw, 1.7rem);
-    font-style: italic;
-    max-width: 44rem;
-    line-height: 1.5;
-    color: var(--ink-soft);
-    font-variation-settings: "opsz" 36;
-  }
-
-  .byline {
-    margin-top: 3.5rem;
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: 0.95rem;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: var(--ink);
-    display: flex;
-    align-items: center;
-    gap: 1.75rem;
-  }
-  .byline::before {
-    content: '';
-    flex: 0 0 4rem;
-    height: 1px;
-    background: var(--ink);
-  }
-  .byline::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--ink);
-    opacity: 0.4;
-  }
-
-  /* Flight arc SVG in hero corner */
-  .arc {
-    position: absolute;
-    top: 7rem;
-    right: 2.5rem;
-    width: 180px;
-    height: 80px;
-    opacity: 0.6;
-    pointer-events: none;
-  }
-
-  /* ─── Section rule ─────────────────────────────────── */
-  .rule {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin: 7rem 0 3rem;
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: 0.9rem;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    font-weight: 600;
-    color: var(--oranje-deep);
-  }
-  .rule::before {
-    content: '';
-    height: 2px;
-    flex: 0 0 3rem;
-    background: var(--oranje-deep);
-  }
-  .rule::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--ink);
-    opacity: 0.25;
-  }
-
-  /* ─── The gist ─────────────────────────────────────── */
-  .gist-grid {
-    display: grid;
-    grid-template-columns: 1.45fr 1fr;
-    gap: 4.5rem;
-    margin-bottom: 2rem;
-    align-items: start;
-  }
-  .gist p {
-    margin-bottom: 1.4rem;
-    font-size: 1.2rem;
-    line-height: 1.65;
-  }
-  .placeholder {
-    border-left: 3px solid var(--oranje);
-    padding: 0.25rem 0 0.25rem 1.75rem;
-    color: var(--ink-soft);
-    font-style: italic;
-  }
-  .placeholder .tag {
-    display: inline-block;
-    background: var(--oranje);
-    color: var(--paper);
-    font-family: 'Fraunces', Georgia, serif;
-    font-style: normal;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 0.15rem 0.55rem;
-    margin-right: 0.5rem;
-    vertical-align: 0.18em;
-  }
-
-  .pullquote {
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: clamp(1.85rem, 3.2vw, 2.75rem);
-    line-height: 1.12;
-    font-weight: 400;
-    font-style: italic;
-    color: var(--oranje-deep);
-    font-variation-settings: "opsz" 72;
-    position: relative;
-    padding-left: 0.3em;
-  }
-  .pullquote::before {
-    content: '\201C';
-    position: absolute;
-    left: -0.4em;
-    top: -0.25em;
-    font-size: 3em;
-    opacity: 0.25;
-    font-style: normal;
-    line-height: 1;
-  }
-
-  /* ─── Postcard details ────────────────────────────── */
-  .postcard {
-    background: var(--paper);
-    border: 1.5px solid var(--ink);
-    padding: 3rem 3.25rem;
-    display: grid;
-    grid-template-columns: 1.6fr 1fr;
-    gap: 3.5rem;
-    position: relative;
-    box-shadow: 5px 5px 0 var(--ink);
-  }
-
-  .stamp {
-    position: absolute;
-    top: -1rem;
-    right: 2.5rem;
-    width: 5.25rem;
-    height: 6.25rem;
-    border: 2px dashed var(--oranje);
-    padding: 0.4rem;
-    background: var(--paper);
-    transform: rotate(4deg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .stamp-inner {
-    width: 100%;
-    height: 100%;
-    border: 1px solid var(--oranje-deep);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--oranje-deep);
-    line-height: 1.2;
     text-align: center;
-    padding: 0.2rem;
-  }
-  .stamp-inner .big {
-    font-size: 1.3rem;
-    font-style: italic;
-    letter-spacing: 0.02em;
-    text-transform: none;
-    margin: 0.1rem 0;
-  }
-
-  .field {
-    margin-bottom: 1.5rem;
-  }
-  .field:last-child { margin-bottom: 0; }
-
-  .field-label {
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: 0.85rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-    margin-bottom: 0.35rem;
-    font-weight: 600;
-  }
-  .field-value {
-    font-size: 1.35rem;
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 500;
-    color: var(--ink);
-  }
-  .field-value.pending {
-    color: var(--oranje-deep);
-    border-bottom: 1.5px dashed var(--oranje);
-    display: inline-block;
-    padding-bottom: 3px;
-  }
-
-  /* ─── Woonerf aside ────────────────────────────────── */
-  .woonerf {
-    max-width: 46rem;
-    margin: 7rem auto;
-    padding: 0 2.5rem 0 4.5rem;
-    font-style: italic;
-    font-size: 1.2rem;
-    line-height: 1.75;
-    color: var(--ink-soft);
+    padding: 80px 24px 40px;
     position: relative;
   }
-  .woonerf::before {
-    content: '\00A7';
-    position: absolute;
-    left: 2.25rem;
-    top: -0.35rem;
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: 2.8rem;
-    color: var(--oranje);
-    line-height: 1;
-    font-style: normal;
-    font-weight: 400;
-  }
-  .woonerf b {
-    font-style: normal;
-    font-weight: 600;
-    color: var(--ink);
+
+  .hero .kicker {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--orange-deep);
+    font-weight: 500;
+    margin-bottom: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
 
-  /* ─── RSVP ─────────────────────────────────────────── */
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(44px, 8vw, 84px);
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--orange-deep);
+  }
+
+  .hero .subtitle {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .hero .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 36px auto 0;
+    color: var(--orange);
+  }
+
+  .hero .divider .line {
+    height: 1px;
+    width: 60px;
+    background: var(--orange);
+    opacity: 0.5;
+  }
+
+  /* Essentials card */
+  .essentials {
+    background: white;
+    border-radius: 14px;
+    padding: 36px 32px;
+    margin: 0 auto 48px;
+    box-shadow: 0 10px 40px var(--shadow);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  @media (min-width: 600px) {
+    .essentials {
+      grid-template-columns: repeat(3, 1fr);
+      text-align: center;
+    }
+  }
+
+  .essential {
+    padding: 0 4px;
+  }
+
+  .essential .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .essential .value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+
+  .essential .value small {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+    font-weight: 400;
+  }
+
+  /* Section styling */
+  section {
+    padding: 32px 0;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--ink);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .section-intro {
+    text-align: center;
+    color: var(--ink-soft);
+    max-width: 540px;
+    margin: 0 auto 28px;
+    font-size: 16.5px;
+  }
+
+  /* Story section */
+  .story {
+    background: var(--cream-deep);
+    border-radius: 14px;
+    padding: 40px 32px;
+    margin-bottom: 32px;
+  }
+
+  .story p {
+    color: var(--ink-soft);
+    font-size: 16.5px;
+    margin-bottom: 16px;
+  }
+
+  .story p:last-child { margin-bottom: 0; }
+
+  /* Map section */
+  .map-wrapper {
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px var(--shadow);
+    margin-bottom: 20px;
+    background: white;
+  }
+
+  .map-wrapper iframe {
+    width: 100%;
+    height: 320px;
+    border: 0;
+    display: block;
+  }
+
+  .map-note {
+    background: white;
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 10px 40px var(--shadow);
+  }
+
+  .map-note p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: var(--orange);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 999px;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    transition: all 0.2s ease;
+    border: 2px solid var(--orange);
+  }
+
+  .btn:hover {
+    background: var(--orange-deep);
+    border-color: var(--orange-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(224, 120, 86, 0.35);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--orange-deep);
+    border-color: var(--orange);
+  }
+
+  .btn-outline:hover {
+    background: var(--orange);
+    color: white;
+  }
+
+  .btn-large {
+    padding: 18px 40px;
+    font-size: 17px;
+  }
+
+  /* Bring a dish section */
+  .potluck-card {
+    background: white;
+    border-radius: 14px;
+    padding: 36px 32px;
+    box-shadow: 0 10px 40px var(--shadow);
+    margin-bottom: 28px;
+  }
+
+  .potluck-card p {
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .potluck-card p:last-child { margin-bottom: 0; }
+
+  .potluck-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    margin: 20px 0;
+  }
+
+  .potluck-category {
+    background: var(--cream-deep);
+    padding: 12px 14px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* RSVP section */
   .rsvp {
     text-align: center;
-    padding: 2rem 2.5rem 5rem;
+    background: linear-gradient(135deg, var(--blue) 0%, #1e3555 100%);
+    color: white;
+    border-radius: 14px;
+    padding: 56px 32px;
+    margin: 32px 0;
   }
-  .rsvp-rule {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: 0.9rem;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--oranje-deep);
-    font-weight: 600;
-    margin-bottom: 2.25rem;
+
+  .rsvp h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    margin-bottom: 12px;
+    color: white;
   }
-  .rsvp-rule::before,
-  .rsvp-rule::after {
-    content: '';
-    width: 3rem;
-    height: 1px;
-    background: var(--oranje-deep);
-  }
-  .rsvp-link {
-    display: inline-block;
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: clamp(2.25rem, 5.5vw, 3.75rem);
-    font-weight: 500;
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 3px solid var(--oranje);
-    padding-bottom: 0.2rem;
-    transition: color 0.25s ease, border-color 0.25s ease;
-    font-variation-settings: "opsz" 96;
-  }
-  .rsvp-link:hover {
-    color: var(--oranje);
-  }
-  .rsvp-note {
-    margin-top: 1.75rem;
-    font-size: 1.05rem;
-    color: var(--ink-soft);
-    font-style: italic;
-    max-width: 32rem;
+
+  .rsvp p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 17px;
+    margin-bottom: 18px;
+    max-width: 520px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .rsvp p.rsvp-note {
+    font-size: 14.5px;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 14px;
     line-height: 1.55;
   }
 
-  /* ─── Footer ───────────────────────────────────────── */
+  .rsvp p.rsvp-note strong {
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .rsvp p:last-of-type {
+    margin-bottom: 28px;
+  }
+
+  .rsvp .btn {
+    background: var(--orange);
+    border-color: var(--orange);
+  }
+
+  .rsvp .btn:hover {
+    background: white;
+    color: var(--orange-deep);
+    border-color: white;
+  }
+
+  /* Rain plan */
+  .rain-plan {
+    text-align: center;
+    padding: 28px 24px 24px;
+    background: var(--cream-deep);
+    border-radius: 14px;
+    margin-bottom: 32px;
+  }
+
+  .rain-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .rain-icon svg {
+    width: 64px;
+    height: auto;
+  }
+
+  .rain-plan .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--blue);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .rain-plan .detail {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+  }
+
+  .rain-plan p {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    margin-top: 8px;
+  }
+
+  /* Footer */
   footer {
     text-align: center;
-    padding: 3rem 2.5rem 4.5rem;
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: 0.88rem;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-    font-weight: 500;
+    padding: 40px 24px 60px;
+    color: var(--ink-soft);
+    font-size: 14px;
   }
-  footer svg {
+
+  footer .signoff {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  /* Decorative tulip */
+  .tulip-divider {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    opacity: 0.5;
+  }
+
+  .tulip-divider svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Hero scene illustration */
+  .hero-scene {
+    max-width: 760px;
+    margin: 12px auto 44px;
+    padding: 0 12px;
+  }
+
+  .hero-scene svg {
+    width: 100%;
+    height: auto;
     display: block;
-    margin: 0 auto 1.75rem;
   }
 
-  /* ─── Entrance animation ──────────────────────────── */
-  @keyframes fade-up {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .hero > * {
-    opacity: 0;
-    animation: fade-up 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
-  .hero .flag    { animation-delay: 0.1s; }
-  .hero .display { animation-delay: 0.25s; }
-  .hero .lede    { animation-delay: 0.55s; }
-  .hero .byline  { animation-delay: 0.8s; }
-  .hero .arc     { animation-delay: 1.2s; animation-duration: 1.4s; }
-
-  /* ─── Responsive ──────────────────────────────────── */
-  @media (max-width: 900px) {
-    body { font-size: 18px; }
-    section { padding: 0 1.5rem; }
-    .hero { padding-top: 5rem; }
-    .arc { display: none; }
-    .gist-grid {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
-    .pullquote { padding-left: 0.8em; }
-    .postcard {
-      grid-template-columns: 1fr;
-      padding: 2.25rem 1.75rem;
-      gap: 2rem;
-    }
-    .stamp {
-      top: -0.75rem;
-      right: 1rem;
-      width: 4.25rem;
-      height: 5.25rem;
-    }
-    .woonerf {
-      padding: 0 1.5rem;
-      margin: 5rem auto;
-    }
-    .woonerf::before {
-      position: static;
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-    .rule { margin-top: 5rem; }
+  /* Section-title with icon */
+  .section-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 16px;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .hero > * { animation: none; opacity: 1; }
-    html { scroll-behavior: auto; }
+  .section-title-row .section-title,
+  .section-title-row h2 {
+    margin-bottom: 0;
   }
+
+  .section-icon {
+    color: var(--orange);
+    flex-shrink: 0;
+  }
+
+  .section-icon svg {
+    width: 38px;
+    height: 26px;
+    display: block;
+  }
+
+  .rsvp .section-icon {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  /* Dutch flag ribbon accent */
+  .flag-ribbon {
+    display: inline-flex;
+    flex-direction: column;
+    width: 24px;
+    height: 16px;
+    border-radius: 2px;
+    overflow: hidden;
+    vertical-align: middle;
+    margin: 0 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  }
+
+  .flag-ribbon span {
+    flex: 1;
+  }
+
+  .flag-red { background: #ae1c28; }
+  .flag-white { background: #ffffff; }
+  .flag-blue { background: #21468b; }
+
+  /* Footer scene */
+  .footer-scene {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
+    opacity: 0.65;
+  }
+
+  .footer-scene svg {
+    width: 110px;
+    height: auto;
+  }
+
+  /* Small helpers */
+  .center { text-align: center; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
 </style>
 </head>
 <body>
 
-<div class="airmail-stripe top"></div>
-<div class="airmail-stripe bottom"></div>
+<div class="container">
 
-<main>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="kicker">
+      Bon Voyage
+      <span class="flag-ribbon" aria-label="Dutch flag">
+        <span class="flag-red"></span>
+        <span class="flag-white"></span>
+        <span class="flag-blue"></span>
+      </span>
+      Tot Ziens
+    </div>
+    <h1>Before we head to <em>the Netherlands</em>&mdash;<br />a picnic.</h1>
+    <p class="subtitle">
+      Karthik and Ashton are heading to the Netherlands for a year. Before we go, come say hello, eat something tasty, make a new friend, enjoy time in the sun (or shade&mdash;the park has a lovely tree-covered pavilion!), and wish us well as we prepare for our rails-and-trails adventure.
+    </p>
+  </header>
 
-  <section class="hero">
-    <span class="flag" aria-hidden="true">&#x1F1F3;&#x1F1F1;</span>
-    <h1 class="display">Bon<br>voyage<span class="dot">.</span></h1>
-    <p class="lede">We're off to the Netherlands for a year. Come say see-you-later before the suitcases zip shut.</p>
-    <p class="byline"><span>Karthik &amp; Ashton &middot; SW DC</span></p>
+  <!-- HERO SCENE: canal houses, bike, tram -->
+  <div class="hero-scene">
+    <svg viewBox="0 0 800 160" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#e07856" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 
-    <svg class="arc" viewBox="0 0 180 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M 10 65 Q 90 -10, 170 65" stroke="#1a1410" stroke-width="1.4" stroke-dasharray="3 5" fill="none"/>
-      <circle cx="10"  cy="65" r="4" fill="#e85a1c"/>
-      <circle cx="170" cy="65" r="4" fill="#2f4f7a"/>
-      <path d="M 86 17 l 10 4 -8 5 z" fill="#1a1410" transform="rotate(6 90 21)"/>
+      <!-- Overhead tram wire -->
+      <line x1="560" y1="68" x2="720" y2="68" stroke-dasharray="2 3" opacity="0.45"/>
+
+      <!-- Ground line -->
+      <line x1="40" y1="130" x2="760" y2="130"/>
+
+      <!-- Gentle water waves below ground -->
+      <g stroke="#2b4a6f" stroke-width="1" opacity="0.3">
+        <path d="M60 142 q15 -3 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/>
+        <path d="M80 151 q12 -2 24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0"/>
+      </g>
+
+      <!-- Row of 4 canal houses -->
+      <g transform="translate(285 0)">
+
+        <!-- House 1: stepped gable -->
+        <g>
+          <path d="M0 130 V80 L5 80 V72 L13 72 V64 L22 64 V58 L32 58 V64 L41 64 V72 L49 72 V80 L54 80 V130 Z" fill="#faf5eb"/>
+          <rect x="7" y="88" width="8" height="10" fill="#faf5eb"/>
+          <rect x="39" y="88" width="8" height="10" fill="#faf5eb"/>
+          <rect x="7" y="106" width="8" height="18" fill="#faf5eb"/>
+          <rect x="39" y="106" width="8" height="18" fill="#faf5eb"/>
+          <line x1="0" y1="83" x2="54" y2="83"/>
+          <circle cx="27" cy="77" r="1.5" fill="#e07856" stroke="none"/>
+        </g>
+
+        <!-- House 2: bell gable -->
+        <g transform="translate(60 0)">
+          <path d="M0 130 V70 C0 58 12 50 27 50 C42 50 54 58 54 70 V130 Z" fill="#faf5eb"/>
+          <rect x="6" y="78" width="8" height="10" fill="#faf5eb"/>
+          <rect x="40" y="78" width="8" height="10" fill="#faf5eb"/>
+          <rect x="6" y="95" width="8" height="10" fill="#faf5eb"/>
+          <rect x="40" y="95" width="8" height="10" fill="#faf5eb"/>
+          <rect x="20" y="112" width="14" height="18" fill="#faf5eb"/>
+        </g>
+
+        <!-- House 3: triangle gable (tallest, central) -->
+        <g transform="translate(120 0)">
+          <path d="M0 130 V68 L28 42 L56 68 V130 Z" fill="#faf5eb"/>
+          <rect x="7" y="82" width="8" height="10" fill="#faf5eb"/>
+          <rect x="41" y="82" width="8" height="10" fill="#faf5eb"/>
+          <rect x="7" y="100" width="8" height="10" fill="#faf5eb"/>
+          <rect x="41" y="100" width="8" height="10" fill="#faf5eb"/>
+          <rect x="22" y="114" width="12" height="16" fill="#faf5eb"/>
+          <!-- Hoist beam & pulley -->
+          <line x1="28" y1="42" x2="28" y2="36"/>
+          <line x1="28" y1="42" x2="34" y2="42"/>
+          <circle cx="28" cy="34" r="2" fill="#e07856" stroke="none"/>
+        </g>
+
+        <!-- House 4: neck gable -->
+        <g transform="translate(186 0)">
+          <path d="M0 130 V74 L5 74 V64 C5 56 13 50 21 50 C29 50 37 56 37 64 V74 L42 74 V130 Z" fill="#faf5eb"/>
+          <rect x="5" y="82" width="8" height="10" fill="#faf5eb"/>
+          <rect x="29" y="82" width="8" height="10" fill="#faf5eb"/>
+          <rect x="5" y="99" width="8" height="10" fill="#faf5eb"/>
+          <rect x="29" y="99" width="8" height="10" fill="#faf5eb"/>
+          <rect x="14" y="116" width="14" height="14" fill="#faf5eb"/>
+        </g>
+
+      </g>
+
+      <!-- Dutch bike (facing right) -->
+      <g transform="translate(120 0)">
+        <!-- Wheels -->
+        <circle cx="24" cy="117" r="13" fill="#faf5eb"/>
+        <circle cx="80" cy="117" r="13" fill="#faf5eb"/>
+        <!-- Hubs -->
+        <circle cx="24" cy="117" r="1.5" fill="#e07856" stroke="none"/>
+        <circle cx="80" cy="117" r="1.5" fill="#e07856" stroke="none"/>
+        <!-- Bottom bracket / crank -->
+        <circle cx="50" cy="117" r="2.5" fill="#faf5eb"/>
+        <!-- Frame: diamond -->
+        <line x1="24" y1="117" x2="50" y2="117"/>  <!-- chainstay -->
+        <line x1="24" y1="117" x2="46" y2="94"/>   <!-- seatstay -->
+        <line x1="50" y1="117" x2="46" y2="94"/>   <!-- seat tube -->
+        <line x1="46" y1="94" x2="64" y2="97"/>    <!-- top tube -->
+        <line x1="64" y1="97" x2="50" y2="117"/>   <!-- down tube -->
+        <line x1="64" y1="97" x2="64" y2="102"/>   <!-- head tube -->
+        <line x1="64" y1="102" x2="80" y2="117"/>  <!-- fork -->
+        <!-- Handlebar stem + bars (Dutch swept-back) -->
+        <line x1="64" y1="97" x2="64" y2="87"/>
+        <path d="M58 87 Q64 85 70 87"/>
+        <!-- Seat post + saddle -->
+        <line x1="46" y1="94" x2="46" y2="90"/>
+        <line x1="42" y1="90" x2="50" y2="90"/>
+        <!-- Front basket with tulip -->
+        <path d="M66 91 L78 91 L78 101 L68 101 Z" fill="#faf5eb"/>
+        <line x1="66" y1="96" x2="78" y2="96" opacity="0.45"/>
+        <circle cx="72" cy="90" r="2" fill="#e07856" stroke="none"/>
+      </g>
+
+      <!-- Tram on the right -->
+      <g transform="translate(555 0)">
+        <!-- Body -->
+        <rect x="10" y="80" width="120" height="42" rx="5" fill="#faf5eb"/>
+        <!-- Front window rounded -->
+        <path d="M18 88 Q18 84 22 84 L44 84 Q48 84 48 88 L48 106 L18 106 Z" fill="#faf5eb"/>
+        <!-- Middle windows -->
+        <rect x="54" y="88" width="16" height="18" fill="#faf5eb"/>
+        <rect x="75" y="88" width="16" height="18" fill="#faf5eb"/>
+        <rect x="96" y="88" width="16" height="18" fill="#faf5eb"/>
+        <rect x="117" y="88" width="9" height="18" fill="#faf5eb"/>
+        <!-- Doors -->
+        <line x1="71" y1="106" x2="71" y2="122"/>
+        <line x1="92" y1="106" x2="92" y2="122"/>
+        <!-- Wheels -->
+        <circle cx="30" cy="126" r="5" fill="#faf5eb"/>
+        <circle cx="110" cy="126" r="5" fill="#faf5eb"/>
+        <!-- Headlight -->
+        <circle cx="14" cy="112" r="1.8" fill="#e07856" stroke="none"/>
+        <!-- Pantograph -->
+        <line x1="70" y1="80" x2="70" y2="72"/>
+        <line x1="62" y1="72" x2="78" y2="72"/>
+        <line x1="70" y1="72" x2="70" y2="68"/>
+        <line x1="64" y1="68" x2="76" y2="68"/>
+      </g>
+
     </svg>
-  </section>
+  </div>
 
-
-  <section>
-    <div class="rule"><span>The gist</span></div>
-    <div class="gist-grid">
-      <div class="gist">
-        <div class="placeholder">
-          <p><span class="tag">Host note</span>Karthik's on sabbatical and we're using the year to live somewhere walkable, with water around the corner and bike paths that actually connect. Utrecht won the coin toss.</p>
-          <p>We'll miss the people more than the city. So: come over, eat too much, meet someone you haven't met, and tell us your news before the boxes go.</p>
-          <p style="font-size: 0.95rem; color: var(--ink-dim); margin-top: 2rem;">&mdash; swap this copy for your own.</p>
-        </div>
+  <!-- ESSENTIALS -->
+  <div class="essentials">
+    <div class="essential">
+      <div class="label">When</div>
+      <div class="value">
+        Friday, May 15*
+        <small>5:30 &ndash; 8:30 PM</small>
       </div>
-      <aside class="pullquote">A whole year of stroopwafels. A whole year missing you.</aside>
+    </div>
+    <div class="essential">
+      <div class="label">Where</div>
+      <div class="value">
+        Waterfront Park
+        <small>SW Washington, DC</small>
+      </div>
+    </div>
+    <div class="essential">
+      <div class="label">The Vibe</div>
+      <div class="value">
+        Casual potluck
+        <small>Kids &amp; dogs welcome</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- STORY -->
+  <section>
+    <div class="story">
+      <p>
+        After eight years of building our life in DC and enjoying all that the DMV has to offer with all of you, we're taking a brief hiatus in the Netherlands&mdash;but don't worry, we'll be back in a year! Before we go, we'd love to spend a relaxing evening with our community&mdash;the people who make this place home.
+      </p>
+      <p>
+        It'll be a low-key picnic at our favorite neighborhood park. Blankets, lawn chairs, kids, dogs, all encouraged.
+      </p>
     </div>
   </section>
 
-
+  <!-- LOCATION -->
   <section>
-    <div class="rule"><span>The details</span></div>
-    <div class="postcard">
-      <div class="stamp" aria-hidden="true">
-        <div class="stamp-inner">
-          <span>Par&nbsp;Avion</span>
-          <span class="big">IAD &rarr; AMS</span>
-          <span>Jun &middot; 2026</span>
-        </div>
-      </div>
-      <div>
-        <div class="field">
-          <div class="field-label">When</div>
-          <div class="field-value pending">[date &middot; time]</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Where</div>
-          <div class="field-value pending">[address &mdash; SW DC]</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Bring</div>
-          <div class="field-value pending">[potluck? a bottle? just yourself?]</div>
-        </div>
-      </div>
-      <div>
-        <div class="field">
-          <div class="field-label">Dress</div>
-          <div class="field-value">Neighborhood casual.</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Kids</div>
-          <div class="field-value">Welcome and expected.</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Dogs</div>
-          <div class="field-value">Bring them too.</div>
-        </div>
-      </div>
+    <div class="section-title-row">
+      <span class="section-icon" aria-hidden="true">
+        <!-- Ferry / canal boat -->
+        <svg viewBox="0 0 56 32" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Boat hull -->
+          <path d="M4 22 L52 22 L46 28 L10 28 Z"/>
+          <!-- Cabin -->
+          <rect x="14" y="10" width="28" height="12" rx="1"/>
+          <!-- Windows -->
+          <line x1="20" y1="14" x2="20" y2="18"/>
+          <line x1="26" y1="14" x2="26" y2="18"/>
+          <line x1="32" y1="14" x2="32" y2="18"/>
+          <line x1="38" y1="14" x2="38" y2="18"/>
+          <!-- Flag/mast -->
+          <line x1="28" y1="10" x2="28" y2="4"/>
+          <path d="M28 4 L34 6 L28 8"/>
+          <!-- Water -->
+          <path d="M2 30 q4 -2 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" opacity="0.45"/>
+        </svg>
+      </span>
+      <h2 class="section-title">Finding the park</h2>
+    </div>
+    <p class="section-intro">
+      The park sits along the SW Waterfront on M Place SW. Google Maps is a little confused about what it's called&mdash;please use the pin below rather than searching "Southwest Waterfront Park," which lands you closer to the Titanic Memorial (which is just a short walk away if you end up there!). The park is a five-minute walk from Waterfront Metro on the green line and there are two Capital Bikeshare stations nearby.
+    </p>
+
+    <div class="map-wrapper">
+      <iframe
+        src="https://maps.google.com/maps?q=38.875413,-77.020316&z=18&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Map showing the general area of the picnic near M Place SW"
+      ></iframe>
+    </div>
+
+    <div class="map-note">
+      <p><strong>Use this pin for the exact spot:</strong></p>
+      <a class="btn btn-outline" href="https://maps.app.goo.gl/6aCb1aNpsFpSsqor6" target="_blank" rel="noopener">Open in Google Maps &rarr;</a>
     </div>
   </section>
 
-
-  <aside class="woonerf">
-    <p>One thing we want to plant before we leave. A few years ago we wrote a <b>woonerf</b> proposal for SW DC: a Dutch-style living street where cars are guests, kids can chalk the pavement, and the block belongs to the people on it. Part of why we're going is to live on one, take notes, and bring them back. If you see a traffic engineer at the party, introduce yourself.</p>
-  </aside>
-
-
-  <section class="rsvp">
-    <div class="rsvp-rule"><span>RSVP</span></div>
-    <a class="rsvp-link" href="mailto:ashton.mcrp@gmail.com?subject=Bon%20voyage%20%E2%80%94%20count%20me%20in">Email Ashton</a>
-    <p class="rsvp-note">Tell her how many, any allergies, and whether you'll need a ride home. If you RSVP with a joke, she'll remember.</p>
+  <!-- RSVP -->
+  <section>
+    <div class="rsvp">
+      <div class="section-title-row">
+        <span class="section-icon" aria-hidden="true">
+          <!-- Windmill -->
+          <svg viewBox="0 0 56 32" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Tower (tapered) -->
+            <path d="M22 28 L26 14 L34 14 L38 28 Z"/>
+            <!-- Door -->
+            <path d="M28 28 L28 23 L32 23 L32 28"/>
+            <!-- Small window -->
+            <circle cx="30" cy="19" r="0.8" fill="currentColor"/>
+            <!-- Hub -->
+            <circle cx="30" cy="10" r="1.3" fill="currentColor"/>
+            <!-- Four blades in X pattern -->
+            <line x1="30" y1="10" x2="37" y2="3"/>
+            <line x1="30" y1="10" x2="23" y2="3"/>
+            <line x1="30" y1="10" x2="37" y2="17"/>
+            <line x1="30" y1="10" x2="23" y2="17"/>
+          </svg>
+        </span>
+        <h2>Can you join us?</h2>
+      </div>
+      <p>
+        A quick RSVP helps us plan&mdash;two minutes, promise.
+      </p>
+      <p class="rsvp-note">
+        You can also tell us what you're bringing in the same form&mdash;we'll provide plates, cups, napkins, utensils, light snacks, and fizzy water.
+      </p>
+      <a class="btn btn-large" href="https://o4ltnhc1g3t.typeform.com/to/sx1OB23f" target="_blank" rel="noopener">RSVP here &rarr;</a>
+    </div>
   </section>
 
-</main>
+  <!-- RAIN PLAN -->
+  <section>
+    <div class="rain-plan">
+      <div class="rain-icon" aria-hidden="true">
+        <!-- Umbrella in the rain (keeping it simple) -->
+        <svg viewBox="0 0 72 44" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#2b4a6f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Raindrops -->
+          <line x1="10" y1="6" x2="8" y2="12" opacity="0.55"/>
+          <line x1="20" y1="3" x2="18" y2="9" opacity="0.55"/>
+          <line x1="52" y1="3" x2="50" y2="9" opacity="0.55"/>
+          <line x1="62" y1="6" x2="60" y2="12" opacity="0.55"/>
+          <!-- Umbrella canopy -->
+          <path d="M16 22 Q36 8 56 22" stroke="#e07856" stroke-width="1.8"/>
+          <line x1="16" y1="22" x2="56" y2="22" stroke="#e07856" stroke-width="1.8"/>
+          <!-- Canopy ribs -->
+          <line x1="26" y1="17" x2="26" y2="22" stroke="#e07856" stroke-width="1" opacity="0.45"/>
+          <line x1="36" y1="13" x2="36" y2="22" stroke="#e07856" stroke-width="1" opacity="0.45"/>
+          <line x1="46" y1="17" x2="46" y2="22" stroke="#e07856" stroke-width="1" opacity="0.45"/>
+          <!-- Shaft -->
+          <line x1="36" y1="13" x2="36" y2="36" stroke="#e07856" stroke-width="1.8"/>
+          <!-- Handle (J-curve) -->
+          <path d="M36 36 Q36 40 40 40" stroke="#e07856" stroke-width="1.8"/>
+        </svg>
+      </div>
+      <div class="label">*Rain plan*</div>
+      <div class="detail">Saturday, May 16 &middot; 11 AM &ndash; 2 PM</div>
+      <p>If Friday evening is a washout, we'll shift to Saturday late morning&mdash;you'll hear from us by noon on Friday with the call.</p>
+    </div>
+  </section>
 
-<footer>
-  <svg width="140" height="44" viewBox="0 0 140 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M 8 36 Q 70 4, 132 36" stroke="#1a1410" stroke-width="1.4" stroke-dasharray="3 5" fill="none" opacity="0.55"/>
-    <circle cx="8"   cy="36" r="3.5" fill="#e85a1c"/>
-    <circle cx="132" cy="36" r="3.5" fill="#2f4f7a"/>
-  </svg>
-  Wheels up in June &middot; see you before then
-</footer>
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-scene" aria-hidden="true">
+      <!-- Row of tulips -->
+      <svg viewBox="0 0 160 32" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <g transform="translate(8 4)">
+          <path d="M10 4 Q6 8 6 12 A4 4 0 0 0 14 12 Q14 8 10 4 Z" fill="#e07856" opacity="0.9"/>
+          <line x1="10" y1="16" x2="10" y2="26" stroke="#7a9471" stroke-width="1.4"/>
+          <path d="M10 21 Q14 19 16 23" stroke="#7a9471" stroke-width="1.4"/>
+        </g>
+        <g transform="translate(32 1)">
+          <path d="M10 4 Q6 8 6 12 A4 4 0 0 0 14 12 Q14 8 10 4 Z" fill="#e07856" opacity="0.9"/>
+          <line x1="10" y1="16" x2="10" y2="29" stroke="#7a9471" stroke-width="1.4"/>
+          <path d="M10 23 Q6 21 4 25" stroke="#7a9471" stroke-width="1.4"/>
+        </g>
+        <g transform="translate(56 3)">
+          <path d="M10 4 Q6 8 6 12 A4 4 0 0 0 14 12 Q14 8 10 4 Z" fill="#e07856" opacity="0.9"/>
+          <line x1="10" y1="16" x2="10" y2="27" stroke="#7a9471" stroke-width="1.4"/>
+          <path d="M10 22 Q14 20 16 24" stroke="#7a9471" stroke-width="1.4"/>
+        </g>
+        <g transform="translate(80 0)">
+          <path d="M10 4 Q6 8 6 12 A4 4 0 0 0 14 12 Q14 8 10 4 Z" fill="#e07856" opacity="0.9"/>
+          <line x1="10" y1="16" x2="10" y2="30" stroke="#7a9471" stroke-width="1.4"/>
+          <path d="M10 24 Q6 22 4 26" stroke="#7a9471" stroke-width="1.4"/>
+        </g>
+        <g transform="translate(104 2)">
+          <path d="M10 4 Q6 8 6 12 A4 4 0 0 0 14 12 Q14 8 10 4 Z" fill="#e07856" opacity="0.9"/>
+          <line x1="10" y1="16" x2="10" y2="28" stroke="#7a9471" stroke-width="1.4"/>
+          <path d="M10 22 Q14 20 16 24" stroke="#7a9471" stroke-width="1.4"/>
+        </g>
+        <g transform="translate(128 4)">
+          <path d="M10 4 Q6 8 6 12 A4 4 0 0 0 14 12 Q14 8 10 4 Z" fill="#e07856" opacity="0.9"/>
+          <line x1="10" y1="16" x2="10" y2="26" stroke="#7a9471" stroke-width="1.4"/>
+          <path d="M10 21 Q6 19 4 23" stroke="#7a9471" stroke-width="1.4"/>
+        </g>
+      </svg>
+    </div>
+    <div class="signoff">See you on the lawn &mdash;</div>
+    <div>Ashton &amp; Karthik</div>
+  </footer>
+
+</div>
 
 </body>
 </html>
